@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Pembelajaran Aksara Sunda - Kelas 7</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f0fdf4; }
+        .aksara-font { font-size: 2.5rem; color: #166534; }
+        .card-glow:hover { box-shadow: 0 10px 15px -3px rgba(34, 197, 94, 0.2); transform: translateY(-2px); transition: all 0.3s; }
+        .tab-active { border-bottom: 4px solid #16a34a; color: #16a34a; }
+        canvas { border: 2px dashed #cbd5e1; border-radius: 0.5rem; cursor: crosshair; touch-action: none; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <section id="entry-screen" class="fixed inset-0 z-50 bg-green-900 flex items-center justify-center p-4">
+        <div class="bg-white p-8 rounded-2xl shadow-2xl max-w-md w-full animate-fade-in">
+            <div class="text-center mb-6">
+                <div class="text-5xl mb-2">✍️</div>
+                <h2 class="text-2xl font-bold text-green-800">Data Murid</h2>
+                <p class="text-gray-500 text-sm">Eusi nami sareng kelas sateuacan diajar</p>
+            </div>
+            
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Nami Lengkep</label>
+                    <input type="text" id="student-name" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 outline-none" placeholder="Conto: Asep Sunandar">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Kelas</label>
+                    <select id="student-class" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 outline-none">
+                        <option value="">Pilih Kelas</option>
+                        <option value="7A">Kelas 7A</option>
+                        <option value="7B">Kelas 7B</option>
+                        <option value="7C">Kelas 7C</option>
+                        <option value="7D">Kelas 7D</option>
+                        <option value="7E">Kelas 7E</option>
+                        <option value="7F">Kelas 7F</option>
+                        <option value="7G">Kelas 7G</option>
+                        <option value="7H">Kelas 7H</option>
+                        <option value="7I">Kelas 7I</option>
+                        <option value="7J">Kelas 7J</option>
+                        <option value="7K">Kelas 7K</option>
+                        <option value="7L">Kelas 7L</option>
+                        <option value="7M">Kelas 7M</option>
+                        <option value="7N">Kelas 7N</option>
+                    </select>
+                </div>
+                <button onclick="startApp()" class="w-full bg-green-600 text-white py-3 rounded-xl font-bold hover:bg-green-700 transition shadow-lg">Mulai Diajar</button>
+            </div>
+        </div>
+    </section>
+
+    <header class="bg-green-700 text-white shadow-lg p-6">
+        <div class="container mx-auto flex flex-col md:flex-row justify-between items-center">
+            <div class="text-center md:text-left mb-4 md:mb-0">
+                <h1 class="text-3xl font-bold italic">Diajar Aksara Sunda</h1>
+                <p class="text-green-100 opacity-90" id="header-subtitle">Multimedia Interaktif Kelas 7</p>
+            </div>
+            <nav class="flex space-x-2 overflow-x-auto pb-2 w-full md:w-auto justify-center">
+                <button onclick="showSection('home')" class="px-4 py-2 hover:bg-green-600 rounded-lg transition">Beranda</button>
+                <button onclick="showSection('materi')" class="px-4 py-2 hover:bg-green-600 rounded-lg transition">Materi</button>
+                <button onclick="showSection('praktek')" class="px-4 py-2 hover:bg-green-600 rounded-lg transition">Nulis</button>
+                <button onclick="showSection('kuis')" class="px-4 py-2 hover:bg-green-600 rounded-lg transition">Kuis</button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="flex-grow container mx-auto p-4 md:p-8">
+        
+        <!-- SECTION: BERANDA -->
+        <section id="home" class="section-content animate-fade-in">
+            <div class="bg-white p-8 rounded-2xl shadow-sm border border-green-100 max-w-4xl mx-auto">
+                <div class="flex flex-col md:flex-row items-center gap-8">
+                    <div class="w-32 h-32 bg-green-100 rounded-full flex items-center justify-center text-5xl">📖</div>
+                    <div>
+                        <h2 class="text-2xl font-bold text-green-800 mb-2" id="welcome-title">Wilujeng Sumping!</h2>
+                        <p class="text-green-600 font-medium mb-4" id="user-display"></p>
+                        <p class="text-gray-600 mb-4 leading-relaxed">
+                            Mata pelajaran Bahasa Sunda di kelas 7 ayeuna bakal ngawanohkeun urang kana kabeungharan budaya Sunda, salah sahijina nyaéta <strong>Aksara Sunda</strong>. 
+                        </p>
+                        <div class="bg-green-50 p-4 rounded-xl border-l-4 border-green-500">
+                            <h3 class="font-semibold text-green-700 mb-2">Tujuan Pangajaran:</h3>
+                            <ul class="list-disc list-inside text-sm text-green-800 space-y-1">
+                                <li>Murid sanggup wanoh kana wangun Aksara Sunda.</li>
+                                <li>Murid sanggup maca kecap jeung kalimah sederhana.</li>
+                                <li>Murid sanggup nuliskeun aksara Sunda kalayan merenah.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <button onclick="showSection('materi')" class="mt-8 w-full bg-green-600 text-white py-3 rounded-xl font-bold hover:bg-green-700 transition">Mulai Belajar</button>
+            </div>
+        </section>
+
+        <!-- SECTION: MATERI -->
+        <section id="materi" class="hidden section-content">
+            <div class="flex space-x-4 mb-6 border-b overflow-x-auto">
+                <button onclick="showSubMateri('swara')" id="btn-swara" class="tab-btn pb-2 px-4 font-semibold tab-active">Aksara Swara</button>
+                <button onclick="showSubMateri('ngalagena')" id="btn-ngalagena" class="tab-btn pb-2 px-4 font-semibold text-gray-500">Aksara Ngalagena</button>
+                <button onclick="showSubMateri('raranken')" id="btn-raranken" class="tab-btn pb-2 px-4 font-semibold text-gray-500">Rarangkén</button>
+            </div>
+
+            <!-- SUB: SWARA -->
+            <div id="sub-swara" class="sub-materi grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4">
+                <!-- Vowels will be injected here -->
+            </div>
+
+            <!-- SUB: NGALAGENA -->
+            <div id="sub-ngalagena" class="hidden sub-materi grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                <!-- Consonants will be injected here -->
+            </div>
+
+            <!-- SUB: RARANKEN -->
+            <div id="sub-raranken" class="hidden sub-materi">
+                <div class="bg-white p-6 rounded-xl shadow-sm space-y-4">
+                    <h3 class="text-xl font-bold text-green-700">Pangatur Sora (Rarangkén)</h3>
+                    <p class="text-sm text-gray-600">Rarangkén fungsina pikeun ngarobah atawa nambahan sora dina Aksara Ngalagena.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="raranken-container">
+                        <!-- Raranken data injected here -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: PRAKTEK NULIS -->
+        <section id="praktek" class="hidden section-content max-w-2xl mx-auto">
+            <div class="bg-white p-6 rounded-2xl shadow-sm text-center">
+                <h2 class="text-2xl font-bold text-green-800 mb-2">Praktek Nulis</h2>
+                <p class="text-gray-500 mb-6 text-sm">Cobian seratkeun aksara anu dipénta dina kotak di handap!</p>
+                
+                <div class="mb-4">
+                    <span class="text-sm text-gray-400">Tuliskeun Aksara:</span>
+                    <div id="writing-target" class="text-4xl font-bold text-green-600 my-2">ᮊ (Ka)</div>
+                </div>
+
+                <canvas id="paintCanvas" width="400" height="300" class="mx-auto bg-gray-50 shadow-inner"></canvas>
+                
+                <div class="mt-6 flex justify-center space-x-4">
+                    <button onclick="clearCanvas()" class="px-6 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300">Hapus</button>
+                    <button onclick="nextWriting()" class="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">Salajengna</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: KUIS -->
+        <section id="kuis" class="hidden section-content max-w-3xl mx-auto">
+            <div id="quiz-container" class="bg-white p-8 rounded-2xl shadow-sm">
+                <!-- Quiz dynamic content -->
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-green-900 text-green-100 p-6 mt-8">
+        <div class="container mx-auto text-center">
+            <p class="text-sm opacity-80">Media Pembelajaran Interaktif Bahasa Sunda - Kurikulum Merdeka</p>
+            <p class="font-semibold mt-2">Copyright &copy; 2026 Siti Sundari Kepala SMPN 2 Ganeas</p>
+        </div>
+    </footer>
+
+    <script>
+        let currentUser = { name: '', class: '' };
+
+        function startApp() {
+            const nameInput = document.getElementById('student-name').value.trim();
+            const classInput = document.getElementById('student-class').value;
+
+            if (!nameInput || !classInput) {
+                alert("Punten, eusi nami sareng pilih kelas heula!");
+                return;
+            }
+
+            currentUser.name = nameInput;
+            currentUser.class = classInput;
+
+            // Update UI with student info
+            document.getElementById('header-subtitle').innerText = `Murid: ${currentUser.name} (Kelas ${currentUser.class})`;
+            document.getElementById('user-display').innerText = `Sampurasun, ${currentUser.name}!`;
+            
+            // Hide entry screen and show home
+            document.getElementById('entry-screen').classList.add('hidden');
+            showSection('home');
+        }
+
+        // Data Materi
+        const dataSwara = [
+            { a: 'ᮃ', l: 'A' }, { a: 'ᮄ', l: 'I' }, { a: 'ᮅ', l: 'U' },
+            { a: 'ᮆ', l: 'É' }, { a: 'ᮇ', l: 'O' }, { a: 'ᮈ', l: 'E' }, { a: 'ᮉ', l: 'Eu' }
+        ];
+
+        const dataNgalagena = [
+            { a: 'ᮊ', l: 'Ka' }, { a: 'ᮌ', l: 'Ga' }, { a: 'ᮍ', l: 'Nga' },
+            { a: 'ᮎ', l: 'Ca' }, { a: 'ᮏ', l: 'Ja' }, { a: 'ᮑ', l: 'Nya' },
+            { a: 'ᮒ', l: 'Ta' }, { a: 'ᮓ', l: 'Da' }, { a: 'ᮔ', l: 'Na' },
+            { a: 'ᮕ', l: 'Pa' }, { a: 'ᮘ', l: 'Ba' }, { a: 'ᮙ', l: 'Ma' },
+            { a: 'ᮚ', l: 'Ya' }, { a: 'ᮛ', l: 'Ra' }, { a: 'ᮜ', l: 'La' },
+            { a: 'ᮝ', l: 'Wa' }, { a: 'ᮞ', l: 'Sa' }, { a: 'ᮠ', l: 'Ha' }
+        ];
+
+        const dataRaranken = [
+            { name: 'Panghulu', pos: 'Luhur', func: 'a → i', example: 'ᮊᮤ (Ki)' },
+            { name: 'Panyuku', pos: 'Handap', func: 'a → u', example: 'ᮊᮥ (Ku)' },
+            { name: 'Pamepet', pos: 'Luhur', func: 'a → e', example: 'ᮊᮨ (Ke)' },
+            { name: 'Paneuleung', pos: 'Luhur', func: 'a → eu', example: 'ᮊᮩ (Keu)' },
+            { name: 'Panélé', pos: 'Hareup', func: 'a → é', example: 'ᮦᮊ (Ké)' },
+            { name: 'Panolong', pos: 'Tukang', func: 'a → o', example: 'ᮊᮧ (Ko)' },
+            { name: 'Pamaéh', pos: 'Tukang', func: 'Hapus vokal', example: 'ᮊ᮪ (K)' }
+        ];
+
+        // State Management
+        function showSection(id) {
+            document.querySelectorAll('.section-content').forEach(s => s.classList.add('hidden'));
+            document.getElementById(id).classList.remove('hidden');
+            if(id === 'kuis') initQuiz();
+            if(id === 'praktek') initCanvas();
+        }
+
+        function showSubMateri(id) {
+            document.querySelectorAll('.sub-materi').forEach(s => s.classList.add('hidden'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('tab-active', 'text-green-600'));
+            
+            document.getElementById('sub-' + id).classList.remove('hidden');
+            document.getElementById('btn-' + id).classList.add('tab-active');
+        }
+
+        // Initialize Materi Content
+        function initMateri() {
+            const swaraCont = document.getElementById('sub-swara');
+            dataSwara.forEach(item => {
+                swaraCont.innerHTML += `
+                    <div class="bg-white p-4 rounded-xl border border-green-100 text-center card-glow">
+                        <div class="aksara-font mb-2">${item.a}</div>
+                        <div class="text-sm font-bold text-gray-500">${item.l}</div>
+                    </div>
+                `;
+            });
+
+            const ngalagenaCont = document.getElementById('sub-ngalagena');
+            dataNgalagena.forEach(item => {
+                ngalagenaCont.innerHTML += `
+                    <div class="bg-white p-4 rounded-xl border border-green-100 text-center card-glow">
+                        <div class="aksara-font mb-2">${item.a}</div>
+                        <div class="text-sm font-bold text-gray-500">${item.l}</div>
+                    </div>
+                `;
+            });
+
+            const rarankenCont = document.getElementById('raranken-container');
+            dataRaranken.forEach(item => {
+                rarankenCont.innerHTML += `
+                    <div class="p-4 bg-green-50 rounded-lg border border-green-100">
+                        <div class="font-bold text-green-700">${item.name}</div>
+                        <div class="text-xs text-gray-500 mb-2">Posisi: ${item.pos}</div>
+                        <div class="flex justify-between items-center bg-white p-2 rounded border border-green-200">
+                            <span class="text-sm italic">${item.func}</span>
+                            <span class="text-xl font-bold text-green-600">${item.example}</span>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        // Canvas Logic
+        let canvas, ctx, painting = false;
+
+        function initCanvas() {
+            canvas = document.getElementById('paintCanvas');
+            ctx = canvas.getContext('2d');
+            
+            // Adjust canvas for high DPI
+            const dpr = window.devicePixelRatio || 1;
+            const rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width * dpr;
+            canvas.height = rect.height * dpr;
+            ctx.scale(dpr, dpr);
+            ctx.lineWidth = 4;
+            ctx.lineCap = 'round';
+            ctx.strokeStyle = '#166534';
+
+            canvas.addEventListener('mousedown', startPosition);
+            canvas.addEventListener('mouseup', endPosition);
+            canvas.addEventListener('mousemove', draw);
+            
+            canvas.addEventListener('touchstart', (e) => { e.preventDefault(); startPosition(e.touches[0]); });
+            canvas.addEventListener('touchend', (e) => { e.preventDefault(); endPosition(); });
+            canvas.addEventListener('touchmove', (e) => { e.preventDefault(); draw(e.touches[0]); });
+        }
+
+        function startPosition(e) { painting = true; draw(e); }
+        function endPosition() { painting = false; ctx.beginPath(); }
+
+        function draw(e) {
+            if (!painting) return;
+            const rect = canvas.getBoundingClientRect();
+            const x = (e.clientX || e.pageX) - rect.left;
+            const y = (e.clientY || e.pageY) - rect.top;
+            
+            ctx.lineTo(x, y);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+        }
+
+        function clearCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        let writingIndex = 0;
+        function nextWriting() {
+            writingIndex = (writingIndex + 1) % dataNgalagena.length;
+            document.getElementById('writing-target').innerText = `${dataNgalagena[writingIndex].a} (${dataNgalagena[writingIndex].l})`;
+            clearCanvas();
+        }
+
+        // Quiz Logic
+        const quizData = [
+            { q: "Aksara 'ᮊ' dibacana nyaéta...", a: ["Ga", "Ka", "Nga", "Ca"], c: 1 },
+            { q: "Rarangkén anu fungsina ngarobah sora 'a' jadi 'i' nyaéta...", a: ["Panyuku", "Panghulu", "Pamepet", "Panolong"], c: 1 },
+            { q: "Kumaha tulisan aksara Sunda pikeun kecap 'Bapa'?", a: ["ᮘᮕ", "ᮓᮕ", "ᮘᮒ", "ᮔᮕ"], c: 0 },
+            { q: "Pamepet (ᮨ) fungsina ngarobah sora jadi...", a: ["Eu", "O", "E", "É"], c: 2 },
+            { q: "Aksara Sunda Swara 'ᮄ' nyaéta lambang sora...", a: ["A", "I", "U", "O"], c: 1 }
+        ];
+
+        function initQuiz() {
+            const container = document.getElementById('quiz-container');
+            container.innerHTML = `<h2 class="text-2xl font-bold text-green-800 mb-6">Uji Kamampuh</h2>`;
+            
+            quizData.forEach((item, index) => {
+                let optionsHtml = '';
+                item.a.forEach((opt, optIdx) => {
+                    optionsHtml += `
+                        <label class="flex items-center space-x-3 p-3 border rounded-xl hover:bg-green-50 cursor-pointer transition">
+                            <input type="radio" name="q${index}" value="${optIdx}" class="w-4 h-4 text-green-600">
+                            <span class="text-gray-700">${opt}</span>
+                        </label>
+                    `;
+                });
+
+                container.innerHTML += `
+                    <div class="mb-8 p-4 bg-gray-50 rounded-xl">
+                        <p class="font-semibold text-gray-800 mb-4">${index + 1}. ${item.q}</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            ${optionsHtml}
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML += `
+                <button onclick="checkQuiz()" class="w-full bg-green-600 text-white py-3 rounded-xl font-bold hover:bg-green-700 transition">Pariksa Jawaban</button>
+                <div id="quiz-result" class="mt-6 hidden p-4 rounded-xl text-center font-bold"></div>
+            `;
+        }
+
+        function checkQuiz() {
+            let score = 0;
+            quizData.forEach((item, index) => {
+                const selected = document.querySelector(`input[name="q${index}"]:checked`);
+                if (selected && parseInt(selected.value) === item.c) {
+                    score++;
+                }
+            });
+
+            const resultDiv = document.getElementById('quiz-result');
+            resultDiv.classList.remove('hidden');
+            const finalScore = (score / quizData.length) * 100;
+            
+            if (finalScore >= 70) {
+                resultDiv.className = "mt-6 p-4 rounded-xl text-center font-bold bg-green-100 text-green-700";
+                resultDiv.innerHTML = `Wilujeng! Nilai Anjeun: ${finalScore}<br>Anjeun parantos ngartos materi Aksara Sunda!`;
+            } else {
+                resultDiv.className = "mt-6 p-4 rounded-xl text-center font-bold bg-red-100 text-red-700";
+                resultDiv.innerHTML = `Peunteun Anjeun: ${finalScore}<br>Hayu urang diajar deui sing soson-soson!`;
+            }
+        }
+
+        // On Load
+        window.onload = () => {
+            initMateri();
+            // App stays on entry-screen initially
+        };
+    </script>
+</body>
+</html>
